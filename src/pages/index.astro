@@ -62,7 +62,31 @@ const project=(id:string)=>projects.find(p=>p.slug.startsWith(id))!;
   }
   .award-link:hover strong { text-decoration: underline; }
   @media (max-width: 760px) {
-    .hero h1 { text-align: center; }
+    .hero { isolation: isolate; background: var(--navy); color: #fff; }
+    .hero .intro, .hero .feature { grid-area: 1 / 1; }
+    .hero .feature { min-height: 0; }
+    .hero .feature img { object-position: 56% center; }
+    .hero .feature::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #09172599, #091725bd 65%, #091725aa);
+    }
+    .hero .feature figcaption { display: none; }
+    .hero .intro {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      padding: clamp(3rem, 11vw, 5rem) 1.3rem 2.5rem;
+      text-align: center;
+    }
+    .hero .intro h1 em br { display: initial; }
+    .hero .intro .eyebrow, .hero .intro .lead { color: #fff; }
+    .hero .lead { margin: 1.5rem auto; max-width: 30ch; }
+    .hero .actions { flex-direction: column; gap: 1rem; }
+    .hero .btn { background: var(--paper); color: var(--navy); }
+    .hero .btn:hover { background: #e4ebf2; }
+    .hero a:focus-visible { outline-color: #fff; }
     .hero .eyebrow { justify-content: center; text-align: center; }
     .hero .eyebrow i { display: none; }
     .band { justify-content: center; }
