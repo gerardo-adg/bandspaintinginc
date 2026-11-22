@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS estimate_requests (
+  id TEXT PRIMARY KEY NOT NULL,
+  name TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  email TEXT NOT NULL,
+  service TEXT NOT NULL,
+  address TEXT NOT NULL,
+  submitted_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

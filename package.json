@@ -1,1 +1,14 @@
-{"name":"bs-painting","private":true,"type":"module","scripts":{"dev":"astro dev","preview":"astro preview","build":"astro build"},"dependencies":{"astro":"^5.0.0"}}
+{
+  "name": "bs-painting",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "preview": "astro preview --outDir dist/client",
+    "build": "astro build --outDir dist/client && node scripts/build-worker.mjs"
+  },
+  "dependencies": {
+    "astro": "^5.0.0",
+    "esbuild": "0.27.7"
+  }
+}

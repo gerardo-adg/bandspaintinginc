@@ -1,4 +1,73 @@
 ---
 import Base from '../layouts/Base.astro';
+import services from '../services.json';
 ---
-<Base title="Request a Free Painting Estimate"><section class="section contact"><p class="eyebrow">Free painting estimate</p><h1>Tell us about<br/><em>your project.</em></h1><p class="lead">Call or email B&amp;S with your location and what you’d like painted. If you have photos, include them in your email so we can see the space.</p><div class="actions"><a class="btn" href="tel:+19168689188">Call (916) 868-9188</a><a class="textlink" href="mailto:Bryana@bspaintinc.com?subject=Painting%20estimate">Email for an estimate</a></div><p>Serving Greater Sacramento · Military discounts available</p></section></Base>
+<Base title="Request a Free Painting Estimate">
+  <section class="section contact estimate">
+    <div>
+      <p class="eyebrow">Free painting estimate</p>
+      <h1>Tell us about<br /><em>your project.</em></h1>
+      <p class="lead">Share your contact details and the address of the property you’d like painted. We’ll follow up about your estimate.</p>
+      <p>Prefer to call? <a class="textlink" href="tel:+19168689188">(916) 868-9188</a></p>
+      <p>Serving Greater Sacramento · Military discounts available</p>
+    </div>
+    <form action="/api/estimate" method="post">
+      <label>Full name <input name="name" autocomplete="name" maxlength="120" required /></label>
+      <div class="contact-fields">
+        <label>Phone number <input name="phone" type="tel" autocomplete="tel" maxlength="40" required /></label>
+        <label>Email <input name="email" type="email" autocomplete="email" maxlength="254" required /></label>
+      </div>
+      <label>Service
+        <select name="service" required>
+          <option value="" disabled selected>Select a service</option>
+          {services.map(service => <option value={service}>{service}</option>)}
+        </select>
+      </label>
+      <label>Project address
+        <textarea name="address" autocomplete="street-address" rows="2" maxlength="300" required placeholder="Street address, city, and ZIP code"></textarea>
+      </label>
+      <button class="btn" type="submit">Request my free estimate</button>
+      <p class="form-status" role="status" hidden></p>
+    </form>
+  </section>
+</Base>
+<style>
+  .estimate { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 6rem); }
+  form { display: grid; gap: 1rem; padding: clamp(1rem, 3vw, 2rem); background: #fff; border: 1px solid var(--rule); border-radius: 6px; }
+  label, .contact-fields { display: grid; gap: .5rem; }
+  label { min-width: 0; font-weight: 650; }
+  .contact-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  input, select, textarea { width: 100%; font: inherit; font-weight: 400; color: inherit; background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: .75rem; }
+  textarea { resize: vertical; }
+  button { border: 0; cursor: pointer; }
+  button:disabled { opacity: .7; cursor: wait; }
+  .form-status { margin: 0; line-height: 1.5; }
+  @media (max-width: 800px) { .estimate { grid-template-columns: 1fr; } }
+  @media (max-width: 440px) { .contact-fields { grid-template-columns: 1fr; } }
+</style>
+<script>
+  const form = document.querySelector<HTMLFormElement>('.estimate form');
+  const status = form?.querySelector<HTMLElement>('.form-status');
+  const submit = form?.querySelector<HTMLButtonElement>('button');
+  if (form && status && submit) {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (submit.disabled) return;
+      submit.disabled = true;
+      status.hidden = false;
+      status.textContent = 'Sending your request…';
+      try {
+        const body = new URLSearchParams();
+        new FormData(form).forEach((value, key) => body.set(key, String(value)));
+        const response = await fetch(form.action, { method: 'POST', body, headers: { Accept: 'application/json' } });
+        const result = await response.json();
+        status.textContent = result.message;
+        if (response.ok) form.reset();
+      } catch {
+        status.textContent = 'We couldn’t send your request. Please try again or call (916) 868-9188.';
+      } finally {
+        submit.disabled = false;
+      }
+    });
+  }
+</script>
