@@ -18,7 +18,7 @@ export const services = [
       ['Where to start', 'Tell us which rooms you want painted and whether you’re keeping the current color. If walls, ceilings, and trim need different finishes, we can walk through those choices room by room.'],
       ['Getting the rooms ready', 'Flag nail holes, damaged drywall, wallpaper, or trim that needs attention when you ask for an estimate. Let us know which rooms you’ll need to use during the job so we can talk through access and the order of work.'],
     ],
-    projects: ['7141150', '7160916', '7141763'],
+    projects: ['7141150', '7160916'],
     related: ['cabinet-painting', 'drywall-repair', 'wallpaper-removal'],
   },
   {
