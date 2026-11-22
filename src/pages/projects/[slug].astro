@@ -1,0 +1,6 @@
+---
+import Base from '../../layouts/Base.astro';import projects from '../../projects.json';
+export function getStaticPaths(){return projects.map(p=>({params:{slug:p.slug},props:{p}}))}
+const {p}=Astro.props;
+---
+<Base title={p.title}><section class="section project"><a class="textlink" href="/projects/">All projects</a><h1>{p.title}</h1><img src={p.image} alt={p.title+' completed painting project'}/><a class="btn" href="/contact/">Request a free estimate</a></section></Base>

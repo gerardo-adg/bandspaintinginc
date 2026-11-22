@@ -1,0 +1,1 @@
+{"name":"bs-painting","private":true,"type":"module","scripts":{"dev":"astro dev","preview":"astro preview","build":"astro build"},"dependencies":{"astro":"^5.0.0"}}

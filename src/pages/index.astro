@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import Cards from '../components/Cards.astro';
+import projects from '../projects.json';
+const project=(id:string)=>projects.find(p=>p.slug.startsWith(id))!;
+---
+<Base title="Sacramento Painting Contractors">
+<section class="hero"><div class="intro"><p class="eyebrow"><i></i> Greater Sacramento, CA</p><h1>A fresh coat.<br/><em>A whole new <br/>feeling.</em></h1><p class="lead">Interior and exterior painting by a Sacramento father-and-son team. From the cabinets in your kitchen to the siding on your home.</p><div class="actions"><a class="btn" href="/contact/">Request a free estimate</a><a class="textlink" href="/projects/">Explore our work</a></div></div>
+<figure class="feature"><img fetchpriority="high" src={project('7141150').image} alt="Sunlit El Dorado Hills living room with painted walls and white ceiling trim"/><figcaption><span>El Dorado Hills</span>Interior painting</figcaption></figure></section>
+<section class="band"><span>Family owned &amp; operated</span><span>Licensed &amp; insured</span><span>Best of Sacramento 2025</span></section>
+<section class="section"><p class="eyebrow">The portfolio</p><div class="row"><h2>Work around town.</h2><a class="textlink" href="/projects/">View all projects</a></div><Cards items={['7141572','7141150','7141580'].map(project)}/></section>
+<section id="services" class="section tinted"><p class="eyebrow">Painting services</p><div class="servicegrid"><h2>What needs<br/><em>painting?</em></h2><div>{[['Interiors & cabinets','Walls, ceilings, cabinets and trim. We also handle drywall repairs and wallpaper removal before painting.'],['Exteriors & decks','Exterior painting, wood repairs, pressure washing, staining and ALX deck maintenance.'],['Commercial & multifamily','Interior and exterior painting for businesses, apartment properties and shared spaces.']].map(([name,copy])=><details><summary>{name}</summary><p>{copy}</p></details>)}</div></div></section>
+<section class="section story"><div><p class="eyebrow">Meet B&amp;S</p><h2>Father and son.<br/><em>On the same crew.</em></h2></div><div><p>Bryan was 13 when he started spending his summers painting with his dad, Benito. In 2022, they put their names on a company of their own.</p><a class="textlink" href="/about/">Meet the family</a></div></section>
+</Base>

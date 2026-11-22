@@ -1,0 +1,4 @@
+---
+const {items}=Astro.props;
+---
+<div class="cards">{items.map((p:{slug:string,image:string,title:string})=><a class="card" href={'/projects/'+p.slug+'/'}><img loading="lazy" src={p.image} alt={p.title+' painting project'}/><h3>{p.title.replace(/ - /g,' · ')}</h3></a>)}</div>
