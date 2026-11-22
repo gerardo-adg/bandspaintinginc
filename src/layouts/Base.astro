@@ -1,9 +1,35 @@
 ---
 import '../style.css';
-const navigation = [{ href: "/#services", label: "Services" }, { href: "/projects/", label: "Our work" }, { href: "/about/", label: "About" }];
-const {title,description="Residential and commercial painting in Greater Sacramento. Explore B&S Painting projects and request a free estimate."}=Astro.props;
+import { absoluteUrl, structuredData, type PageSeo } from '../seo';
+const navigation = [{ href: "/services/", label: "Services" }, { href: "/projects/", label: "Our work" }, { href: "/about/", label: "About" }];
+interface Props {
+  title: string;
+  description?: string;
+  seo?: PageSeo;
+}
+const { title, description = 'Residential and commercial painting in Greater Sacramento. Explore B&S Painting projects and request a free estimate.', seo = {} } = Astro.props;
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+const canonical = absoluteUrl(path);
+const fullTitle = title + ' | B&S Painting Inc.';
+const socialImage = absoluteUrl(seo.image ?? '/images/7141150-el-dorado-hills-interior-work.webp');
 ---
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content={description}/><title>{title} | B&amp;S Painting Inc.</title></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="B&S Painting Inc." />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={socialImage} />
+  <script type="application/ld+json" set:html={structuredData(path, fullTitle, description, seo)} />
+</head>
+<body>
 <a class="skip" href="#main">Skip to content</a>
 <header><a class="brand" href="/" aria-label="B and S Painting home"><img src="/images/bs-painting-logo.webp" alt="B&amp;S Painting Inc." width="420" height="169" style="width:clamp(112px,14vw,152px);height:auto;display:block" /></a>
 <nav class="desktop-nav" aria-label="Main">

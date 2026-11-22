@@ -1,8 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
-import services from '../services.json';
+import { estimateServices } from '../estimate-services';
 ---
-<Base title="Request a Free Painting Estimate">
+<Base title="Free Painting Estimate in Sacramento, CA" description="Request a free painting estimate from B&amp;S Painting for your Sacramento-area home, business, or multifamily property." seo={{ type: "ContactPage" }}>
   <section class="section contact estimate">
     <div>
       <p class="eyebrow">Free painting estimate</p>
@@ -20,7 +20,8 @@ import services from '../services.json';
       <label>Service
         <select name="service" required>
           <option value="" disabled selected>Select a service</option>
-          {services.map(service => <option value={service}>{service}</option>)}
+          {estimateServices.map(({ slug, name, value }) => <option value={value} data-service={slug}>{name}</option>)}
+          <option value="Other">Other</option>
         </select>
       </label>
       <label>Project address
@@ -47,6 +48,11 @@ import services from '../services.json';
 </style>
 <script>
   const form = document.querySelector<HTMLFormElement>('.estimate form');
+  const service = form?.querySelector<HTMLSelectElement>('select[name="service"]');
+  const requestedService = new URLSearchParams(location.search).get('service');
+  const matchingOption = Array.from(service?.options ?? []).find(option => option.dataset.service === requestedService);
+  if (service && matchingOption && !service.value) service.value = matchingOption.value;
+
   const status = form?.querySelector<HTMLElement>('.form-status');
   const submit = form?.querySelector<HTMLButtonElement>('button');
   if (form && status && submit) {

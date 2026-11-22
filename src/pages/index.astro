@@ -3,9 +3,10 @@ import Base from '../layouts/Base.astro';
 import Cards from '../components/Cards.astro';
 import Reviews from '../components/Reviews.astro';
 import projects from '../projects.json';
+import { services, servicePath } from '../service-pages';
 const project=(id:string)=>projects.find(p=>p.slug.startsWith(id))!;
 ---
-<Base title="Sacramento Painting Contractors">
+<Base title="Painters in Sacramento, CA" description="B&S Painting is a father-and-son painting company serving Sacramento. Explore interior and exterior painting, cabinet painting, and commercial services. Request a free estimate.">
 <section class="hero"><div class="intro"><p class="eyebrow"><i></i> Greater Sacramento, CA</p><h1>A fresh coat.<br/><em>A whole new <br/>feeling.</em></h1><p class="lead">Interior and exterior painting by a Sacramento father-and-son team. From the cabinets in your kitchen to the siding on your home.</p><div class="actions"><a class="btn" href="/contact/">Request a free estimate</a><a class="textlink" href="/projects/">Explore our work</a></div></div>
 <figure class="feature"><img fetchpriority="high" src={project('7141150').image} alt="Sunlit El Dorado Hills living room with painted walls and white ceiling trim"/><figcaption><span>El Dorado Hills</span>Interior painting</figcaption></figure></section>
 <section class="band"><span>Family owned &amp; operated</span><span>Licensed &amp; insured</span><a class="award-link" href="/images/businessrate-sacramento-2025.webp" aria-label="View the BusinessRate Best of Sacramento 2025 award plaque">
@@ -14,11 +15,32 @@ const project=(id:string)=>projects.find(p=>p.slug.startsWith(id))!;
 </a></section>
 <section class="section"><p class="eyebrow">The portfolio</p><div class="row"><h2>Work around town.</h2><a class="textlink" href="/projects/">View all projects</a></div><Cards items={['7141572','7141150','7141580'].map(project)}/></section>
 <Reviews />
-<section id="services" class="section tinted"><p class="eyebrow">Painting services</p><div class="servicegrid"><h2>What needs<br/><em>painting?</em></h2><div>{[['Interiors & cabinets','Walls, ceilings, cabinets and trim. We also handle drywall repairs and wallpaper removal before painting.'],['Exteriors & decks','Exterior painting, wood repairs, pressure washing, staining and ALX deck maintenance.'],['Commercial & multifamily','Interior and exterior painting for businesses, apartment properties and shared spaces.']].map(([name,copy])=><details><summary>{name}</summary><p>{copy}</p></details>)}</div></div></section>
+<section id="services" class="section tinted">
+  <p class="eyebrow">Painting services</p>
+  <div class="servicegrid">
+    <div>
+      <h2>Painting for homes<br />and businesses.</h2>
+      <p><a class="textlink" href="/services/">View all painting services</a></p>
+    </div>
+    <ul class="home-services">
+      {services.map(service => <li><a href={servicePath(service.slug)}>{service.name}</a></li>)}
+    </ul>
+  </div>
+</section>
 <section class="section story"><div><p class="eyebrow">Meet B&amp;S</p><h2>Father and son.<br/><em>On the same crew.</em></h2></div><div><p>Bryan was 13 when he started spending his summers painting with his dad, Benito. In 2022, they put their names on a company of their own.</p><a class="textlink" href="/about/">Meet the family</a></div></section>
 </Base>
 
 <style>
+  .home-services {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .home-services a { display: block; padding: .75rem 0; border-bottom: 1px solid var(--rule); }
+  .home-services a:hover { text-decoration: underline; }
   .award-link {
     display: flex;
     align-items: center;

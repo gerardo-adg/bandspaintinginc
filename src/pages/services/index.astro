@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import { services, servicePath } from '../../service-pages';
+---
+<Base title="Painting Services in Sacramento, CA" description="Explore B&S Painting’s interior, exterior, cabinet, commercial, and multifamily painting services in Sacramento, plus surface repairs and prep." seo={{ type: 'CollectionPage' }}>
+  <section class="section">
+    <p class="eyebrow">B&amp;S Painting Inc.</p>
+    <h1>Painting services in Sacramento</h1>
+    <p class="lead">Find the right service for your home, business, or multifamily property.</p>
+    <ul class="service-list">
+      {services.map(service => (
+        <li>
+          <h2><a href={servicePath(service.slug)}>{service.name}</a></h2>
+          <p>{service.intro}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+<style>
+  .service-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+    gap: 1rem;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  li { padding: 1.35rem; border: 1px solid var(--rule); border-radius: 4px; }
+  h2 { font-size: 1.7rem; letter-spacing: -.04em; line-height: 1.15; }
+  h2 a { text-decoration: underline; text-underline-offset: .17em; text-decoration-thickness: 1px; }
+  p { line-height: 1.6; }
+  li p { color: var(--muted); margin-bottom: 0; }
+</style>

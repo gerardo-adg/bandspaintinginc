@@ -2,5 +2,8 @@
 import Base from '../../layouts/Base.astro';import projects from '../../projects.json';
 export function getStaticPaths(){return projects.map(p=>({params:{slug:p.slug},props:{p}}))}
 const {p}=Astro.props;
+const matchingTitles = projects.filter(project => project.title === p.title);
+const projectNumber = matchingTitles.findIndex(project => project.slug === p.slug) + 1;
+const pageTitle = matchingTitles.length > 1 ? p.title + ' · Project ' + projectNumber : p.title;
 ---
-<Base title={p.title}><section class="section project"><a class="textlink" href="/projects/">All projects</a><h1>{p.title}</h1><img src={p.image} alt={p.title+' completed painting project'}/><a class="btn" href="/contact/">Request a free estimate</a></section></Base>
+<Base title={pageTitle} description={`See B&S Painting’s ${pageTitle}. Explore more of our Greater Sacramento painting work or request a free estimate.`} seo={{ image: p.image, breadcrumbs: [{ name: "Home", path: "/" }, { name: "Projects", path: "/projects/" }, { name: p.title, path: "/projects/" + p.slug + "/" }] }}><section class="section project"><a class="textlink" href="/projects/">All projects</a><h1>{p.title}</h1><img src={p.image} alt={p.title+' completed painting project'}/><a class="btn" href="/contact/">Request a free estimate</a></section></Base>

@@ -1,4 +1,4 @@
-import services from '../src/services.json' with { type: 'json' };
+import { acceptedServices } from '../src/estimate-services';
 
 const unavailable = 'We couldn’t save your request. Please try again or call (916) 868-9188.';
 
@@ -13,7 +13,15 @@ function reply(request, status, message) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (url.pathname !== '/api/estimate') return env.ASSETS.fetch(request);
+    if (url.pathname !== '/api/estimate') {
+      const page = await env.ASSETS.fetch(request);
+      if (url.hostname.endsWith('.chatgpt.site') && page.headers.get('Content-Type')?.includes('text/html')) {
+        const headers = new Headers(page.headers);
+        headers.set('X-Robots-Tag', 'noindex');
+        return new Response(page.body, { status: page.status, statusText: page.statusText, headers });
+      }
+      return page;
+    }
     if (request.method !== 'POST') return new Response(null, { status: 405, headers: { Allow: 'POST' } });
     if (request.headers.get('Origin') !== url.origin) return reply(request, 403, 'Please submit the form from the estimate page.');
     if (!request.headers.get('Content-Type')?.startsWith('application/x-www-form-urlencoded')) {
@@ -26,7 +34,7 @@ export default {
     const digits = phone.replace(/\D/g, '');
     if (!name || name.length > 120 || digits.length < 7 || digits.length > 15 || phone.length > 40
         || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-        || !services.includes(service) || !address || address.length > 300) {
+        || !acceptedServices.has(service) || !address || address.length > 300) {
       return reply(request, 400, 'Please check that all five fields are complete and that your email and phone number are valid.');
     }
     try {
