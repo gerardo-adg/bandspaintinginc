@@ -1,0 +1,142 @@
+---
+const reviews = [
+  {
+    author: 'Kim Wang',
+    quote: 'Benito identified areas of dry rot at the estimate and replaced them himself during the project. No surprises or changes in cost.',
+  },
+  {
+    author: 'Amanda Grubaugh',
+    quote: 'One was a commercial job and the other a residential. They communicate well work hard and clean up leaving the site better than they found it.',
+  },
+  {
+    author: 'Beekeeper',
+    quote: 'The crew arrived on time every day, kept us informed throughout the project, and always checked in before leaving for the day.',
+  },
+  {
+    author: 'Dave Gonzales',
+    quote: 'The job they did was the best quality job I have seen in a long time. I will be recommending them to all our neighbors in our brand new community.',
+  },
+  {
+    author: 'Jackie Hurt-Coppola',
+    quote: 'They were flexible with the weather (painting in November can be tricky) and still got everything done before the rain.',
+  },
+  {
+    author: 'Carlos Flores',
+    quote: 'Excellent paint job throughout interior and exterior. They re patched large areas of stucco that matched perfectly to the already set material.',
+  },
+  {
+    author: 'Hay Zan',
+    quote: 'Bryan is very responsible and attentive and his team has done a great job to repaint our house in Sacramento.',
+  },
+  {
+    author: 'Little Outlaw',
+    quote: 'They finished the walls, including texturing and painting. To say it turned out amazing would be a massive understatement!',
+  },
+];
+---
+<section id="reviews" class="section reviews" aria-labelledby="reviews-heading">
+  <div class="reviews-header">
+    <div>
+      <h2 id="reviews-heading">What customers say.</h2>
+      <p class="reviews-rating">
+        <span class="stars" aria-hidden="true">★★★★★</span>
+        <strong>5.0 out of 5</strong> <span>from 36 Google reviews</span>
+      </p>
+    </div>
+    <div class="review-controls" hidden>
+      <button type="button" data-previous aria-controls="review-list">Previous</button>
+      <button type="button" data-next aria-controls="review-list">Next</button>
+    </div>
+  </div>
+  <ul id="review-list" class="review-list" tabindex="0" aria-label="Customer reviews">
+    {reviews.map(({ author, quote }) => (
+      <li>
+        <figure class="review-card">
+          <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>“{quote}”</blockquote>
+          <figcaption><strong>{author}</strong><span>Google review</span></figcaption>
+        </figure>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .reviews { background: var(--navy); color: #fff; }
+  .reviews-header { display: flex; justify-content: space-between; align-items: end; gap: 1rem; flex-wrap: wrap; }
+  .reviews-rating { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem .65rem; margin: 1rem 0 0; }
+  .stars { color: #f6c76b; letter-spacing: .12em; }
+  .review-controls { display: flex; gap: .5rem; }
+  .review-controls[hidden] { display: none; }
+  .review-controls button {
+    padding: .5rem .75rem;
+    min-height: 44px;
+    border: 1px solid #91a1b0;
+    border-radius: 4px;
+    color: inherit;
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+  }
+  .review-controls button:disabled { opacity: .5; cursor: default; }
+  .review-controls button:focus-visible, .review-list:focus-visible { outline: 2px solid #f6c76b; outline-offset: 4px; }
+  .review-list {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - 2rem) / 3);
+    gap: 1rem;
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-color: #91a1b0 transparent;
+    padding: 0 0 .75rem;
+    margin: 1.75rem 0 0;
+  }
+  .review-list li { min-width: 0; scroll-snap-align: start; }
+  .review-card {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 1rem;
+    height: 100%;
+    padding: clamp(1rem, 2.25vw, 2rem);
+    border-radius: 6px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .review-card .stars { color: #8b5800; }
+  blockquote { margin: 0; line-height: 1.55; font-size: 1rem; }
+  figcaption { display: grid; gap: .25rem; margin-top: auto; }
+  figcaption span { color: var(--muted); font-size: .875rem; }
+  @media (max-width: 950px) { .review-list { grid-auto-columns: calc((100% - 1rem) / 2); } }
+  @media (max-width: 640px) { .review-list { grid-auto-columns: 90%; } }
+</style>
+
+<script>
+  const list = document.querySelector<HTMLElement>('#review-list');
+  const controls = document.querySelector<HTMLElement>('.review-controls');
+  const previous = controls?.querySelector<HTMLButtonElement>('[data-previous]');
+  const next = controls?.querySelector<HTMLButtonElement>('[data-next]');
+
+  if (list && controls && previous && next) {
+    controls.hidden = false;
+
+    const updateControls = () => {
+      previous.disabled = list.scrollLeft < 2;
+      next.disabled = list.scrollLeft + list.clientWidth >= list.scrollWidth - 2;
+    };
+
+    const move = (direction: number) => {
+      const [first, second] = Array.from(list.children);
+      const step = second.getBoundingClientRect().left - first.getBoundingClientRect().left;
+      const behavior = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
+      list.scrollBy({ left: direction * step, behavior });
+    };
+
+    previous.addEventListener('click', () => move(-1));
+    next.addEventListener('click', () => move(1));
+    list.addEventListener('scroll', updateControls, { passive: true });
+    new ResizeObserver(updateControls).observe(list);
+    updateControls();
+  }
+</script>
