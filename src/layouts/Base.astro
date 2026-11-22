@@ -1,9 +1,66 @@
 ---
 import '../style.css';
+const navigation = [{ href: "/#services", label: "Services" }, { href: "/projects/", label: "Our work" }, { href: "/about/", label: "About" }];
 const {title,description="Residential and commercial painting in Greater Sacramento. Explore B&S Painting projects and request a free estimate."}=Astro.props;
 ---
 <!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content={description}/><title>{title} | B&amp;S Painting Inc.</title></head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header><a class="brand" href="/" aria-label="B and S Painting home"><img src="/images/bs-painting-logo.webp" alt="B&amp;S Painting Inc." width="420" height="169" style="width:clamp(112px,14vw,152px);height:auto;display:block" /></a>
-<nav aria-label="Main"><a href="/#services">Services</a><a href="/projects/">Our work</a><a href="/about/">About</a></nav><a class="btn headbtn" href="/contact/">Free estimate</a></header>
+<nav class="desktop-nav" aria-label="Main">
+  {navigation.map(({ href, label }) => <a href={href}>{label}</a>)}
+</nav>
+<a class="btn headbtn" href="/contact/">Free estimate</a>
+<details class="mobile-menu">
+  <summary aria-label="Menu"><span class="menu-icon" aria-hidden="true"></span></summary>
+  <nav aria-label="Mobile menu">
+    {navigation.map(({ href, label }) => <a href={href}>{label}</a>)}
+  </nav>
+</details></header>
 <main id="main"><slot/></main><footer><div><b>B&amp;S Painting Inc.</b><p>Sacramento, California · License #1097013</p></div><div><a href="tel:+19168689188">(916) 868-9188</a><br/><a href="mailto:Bryana@bspaintinc.com">Bryana@bspaintinc.com</a></div></footer></body></html>
+
+<style>
+  .mobile-menu { display: none; }
+  @media (max-width: 760px) {
+    header { position: relative; z-index: 2; flex-wrap: nowrap; gap: .5rem; }
+    .desktop-nav { display: none; }
+    .mobile-menu { display: block; padding: 0; border: 0; }
+    .mobile-menu summary {
+      display: grid; place-items: center; width: 44px; height: 44px;
+      color: var(--navy); cursor: pointer; list-style: none;
+    }
+    .mobile-menu summary::-webkit-details-marker { display: none; }
+    .menu-icon, .menu-icon::before, .menu-icon::after {
+      display: block; width: 22px; height: 2px; background: currentColor;
+    }
+    .menu-icon { position: relative; }
+    .menu-icon::before, .menu-icon::after { content: ""; position: absolute; }
+    .menu-icon::before { top: -7px; }
+    .menu-icon::after { top: 7px; }
+    .mobile-menu[open] .menu-icon { background: transparent; }
+    .mobile-menu[open] .menu-icon::before { top: 0; transform: rotate(45deg); }
+    .mobile-menu[open] .menu-icon::after { top: 0; transform: rotate(-45deg); }
+    .mobile-menu nav {
+      position: absolute; top: 100%; inset-inline: 0; display: grid; gap: 0;
+      justify-content: stretch; padding: .4rem 1.3rem .8rem;
+      background: var(--paper); border-bottom: 1px solid var(--rule);
+      box-shadow: 0 12px 16px #142b4314;
+    }
+    .mobile-menu a { padding: .9rem 0; }
+    .mobile-menu a + a { border-top: 1px solid var(--rule); }
+  }
+</style>
+<script>
+  const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
+  if (menu) {
+    document.addEventListener('click', (event) => {
+      if (event.target instanceof Element && (!menu.contains(event.target) || event.target.closest('a'))) menu.open = false;
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menu.open) {
+        menu.open = false;
+        menu.querySelector('summary')?.focus();
+      }
+    });
+    matchMedia('(max-width: 760px)').addEventListener('change', () => { menu.open = false; });
+  }
+</script>
