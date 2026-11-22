@@ -1,6 +1,4 @@
 ---
- 1 file changed, 5 insertions(+), 4 deletions(-)
----
 import Base from '../layouts/Base.astro';
 import Cards from '../components/Cards.astro';
 import Reviews from '../components/Reviews.astro';
@@ -65,6 +63,8 @@ const project=(id:string)=>projects.find(p=>p.slug.startsWith(id))!;
   .award-link:hover strong { text-decoration: underline; }
   @media (max-width: 760px) {
     .hero h1 { text-align: center; }
+    .hero .eyebrow { justify-content: center; text-align: center; }
+    .hero .eyebrow i { display: none; }
     .band { justify-content: center; }
     .desktop-trust { display: none; }
   }
