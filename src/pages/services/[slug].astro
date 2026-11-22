@@ -11,7 +11,7 @@ export function getStaticPaths() {
 const { service } = Astro.props;
 const title = service.name + ' in Sacramento, CA';
 const estimate = '/contact/?service=' + service.slug;
-const examples = service.projects.flatMap(id => projects.filter(project => project.slug.startsWith(id + '-')));
+const examples = service.projects.flatMap(id => projects.filter(project => project.slug === id || project.slug.startsWith(id + '-')));
 const [featured] = examples;
 const related = services.filter(item => service.related.includes(item.slug));
 const breadcrumbs = [
@@ -31,7 +31,7 @@ const breadcrumbs = [
       </div>
       {featured && (
         <figure class="service-photo">
-          <img src={featured.image} alt={featured.title} fetchpriority="high" />
+          <img src={featured.image} alt={featured.alt ?? featured.title} fetchpriority="high" />
           <figcaption><a class="textlink" href={'/projects/' + featured.slug + '/'}>{featured.title}</a></figcaption>
         </figure>
       )}

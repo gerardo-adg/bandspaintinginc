@@ -1,5 +1,35 @@
 [
   {
+    "title": "Elk Grove Stucco Exterior Repaint",
+    "slug": "elk-grove-stucco-repaint",
+    "image": "/images/elk-grove-stucco-front.webp",
+    "alt": "Front elevation of the repainted Elk Grove home, with warm stucco and dark garage doors.",
+    "summary": "B&S Painting repainted the exterior of this Elk Grove home. The photos show the finished stucco in evening light, from the full front elevation to the arched entry and the walls around the garage.",
+    "gallery": [
+      {
+        "image": "/images/elk-grove-stucco-entry.webp",
+        "alt": "View from the front entry of the Elk Grove home, with painted stucco arches and a lit walkway.",
+        "caption": "Arched front entry",
+        "width": 1080,
+        "height": 1080
+      },
+      {
+        "image": "/images/elk-grove-stucco-garage.webp",
+        "alt": "Angled view of the painted stucco beside the garage and driveway.",
+        "caption": "Garage and driveway side",
+        "width": 1080,
+        "height": 851
+      },
+      {
+        "image": "/images/elk-grove-stucco-finish.webp",
+        "alt": "Close-up of the painted stucco texture beside an exterior lantern.",
+        "caption": "Stucco finish in evening light",
+        "width": 1080,
+        "height": 720
+      }
+    ]
+  },
+  {
     "title": "Penn Valley - Exterior Work",
     "slug": "7141572-penn-valley-exterior-work",
     "image": "/images/7141572-penn-valley-exterior-work.webp"

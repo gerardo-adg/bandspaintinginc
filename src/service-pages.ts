@@ -7,7 +7,7 @@ export const services = [
       ['Stucco, siding, and exterior trim', 'A full repaint is a chance to bring the body, trim, garage doors, and front entry together. Show us any peeling paint, stained areas, or spots exposed to afternoon sun so we can address them in the estimate.'],
       ['Repairs before the repaint', 'Point out cracked stucco or damaged trim at the walkthrough. We can discuss patching, wood repair, and which surfaces need cleaning or primer before the finish goes on.'],
     ],
-    projects: ['7141766', '7642675', '7141584'],
+    projects: ['elk-grove-stucco-repaint', '7141766', '7642675', '7141584'],
     related: ['wood-repair', 'pressure-washing'],
   },
   {

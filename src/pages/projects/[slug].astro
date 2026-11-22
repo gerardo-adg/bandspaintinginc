@@ -1,9 +1,49 @@
 ---
-import Base from '../../layouts/Base.astro';import projects from '../../projects.json';
-export function getStaticPaths(){return projects.map(p=>({params:{slug:p.slug},props:{p}}))}
-const {p}=Astro.props;
-const matchingTitles = projects.filter(project => project.title === p.title);
-const projectNumber = matchingTitles.findIndex(project => project.slug === p.slug) + 1;
-const pageTitle = matchingTitles.length > 1 ? p.title + ' · Project ' + projectNumber : p.title;
+import Base from '../../layouts/Base.astro';
+import projects from '../../projects.json';
+
+export function getStaticPaths() {
+  return projects.map(project => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const matchingTitles = projects.filter(item => item.title === project.title);
+const projectNumber = matchingTitles.findIndex(item => item.slug === project.slug) + 1;
+const pageTitle = matchingTitles.length > 1 ? project.title + ' · Project ' + projectNumber : project.title;
+const description = project.summary ?? `See B&S Painting’s ${pageTitle}. Explore more of our Greater Sacramento painting work or request a free estimate.`;
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Projects', path: '/projects/' },
+  { name: project.title, path: '/projects/' + project.slug + '/' },
+];
 ---
-<Base title={pageTitle} description={`See B&S Painting’s ${pageTitle}. Explore more of our Greater Sacramento painting work or request a free estimate.`} seo={{ image: p.image, breadcrumbs: [{ name: "Home", path: "/" }, { name: "Projects", path: "/projects/" }, { name: p.title, path: "/projects/" + p.slug + "/" }] }}><section class="section project"><a class="textlink" href="/projects/">All projects</a><h1>{p.title}</h1><img src={p.image} alt={p.title+' completed painting project'}/><a class="btn" href="/contact/">Request a free estimate</a></section></Base>
+<Base title={pageTitle} description={description} seo={{ image: project.image, breadcrumbs }}>
+  <section class="section project">
+    <a class="textlink" href="/projects/">All projects</a>
+    <h1>{project.title}</h1>
+    {project.summary && <p class="lead">{project.summary}</p>}
+    <img src={project.image} alt={project.alt ?? project.title + ' completed painting project'} fetchpriority="high" />
+    {project.gallery && (
+      <div class="project-gallery">
+        {project.gallery.map(photo => (
+          <figure>
+            <img src={photo.image} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" />
+            <figcaption>{photo.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    )}
+    <a class="btn" href="/contact/">Request a free estimate</a>
+  </section>
+</Base>
+<style>
+  .project-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: 1.25rem;
+    max-width: 72rem;
+    margin-bottom: 2rem;
+  }
+  .project-gallery img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; margin: 0 0 .5rem; }
+  figcaption { font-size: .95rem; color: var(--muted); }
+</style>
