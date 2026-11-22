@@ -1,7 +1,8 @@
 ---
 import '../style.css';
+import ServicesMenu from '../components/ServicesMenu.astro';
 import { absoluteUrl, structuredData, type PageSeo } from '../seo';
-const navigation = [{ href: "/services/", label: "Services" }, { href: "/projects/", label: "Our work" }, { href: "/about/", label: "About" }];
+const navigation = [{ href: "/projects/", label: "Our work" }, { href: "/about/", label: "About" }];
 interface Props {
   title: string;
   description?: string;
@@ -33,21 +34,24 @@ const socialImage = absoluteUrl(seo.image ?? '/images/7141150-el-dorado-hills-in
 <a class="skip" href="#main">Skip to content</a>
 <header><a class="brand" href="/" aria-label="B and S Painting home"><img src="/images/bs-painting-logo.webp" alt="B&amp;S Painting Inc." width="420" height="169" style="width:clamp(112px,14vw,152px);height:auto;display:block" /></a>
 <nav class="desktop-nav" aria-label="Main">
+  <ServicesMenu />
   {navigation.map(({ href, label }) => <a href={href}>{label}</a>)}
 </nav>
 <a class="btn headbtn" href="/contact/">Free estimate</a>
 <details class="mobile-menu">
   <summary aria-label="Menu"><span class="menu-icon" aria-hidden="true"></span></summary>
   <nav aria-label="Mobile menu">
+    <ServicesMenu />
     {navigation.map(({ href, label }) => <a href={href}>{label}</a>)}
   </nav>
 </details></header>
 <main id="main"><slot/></main><footer><div><b>B&amp;S Painting Inc.</b><p>Sacramento, California · License #1097013</p></div><div><a href="tel:+19168689188">(916) 868-9188</a><br/><a href="mailto:Bryana@bspaintinc.com">Bryana@bspaintinc.com</a></div></footer></body></html>
 
 <style>
+  header { position: relative; z-index: 2; }
   .mobile-menu { display: none; }
   @media (max-width: 760px) {
-    header { position: relative; z-index: 2; flex-wrap: nowrap; gap: .5rem; }
+    header { flex-wrap: nowrap; gap: .5rem; }
     .desktop-nav { display: none; }
     .mobile-menu { display: block; padding: 0; border: 0; }
     .mobile-menu summary {
@@ -68,25 +72,42 @@ const socialImage = absoluteUrl(seo.image ?? '/images/7141150-el-dorado-hills-in
     .mobile-menu nav {
       position: absolute; top: 100%; inset-inline: 0; display: grid; gap: 0;
       justify-content: stretch; padding: .4rem 1.3rem .8rem;
+      max-height: calc(100dvh - 6rem); overflow-y: auto;
       background: var(--paper); border-bottom: 1px solid var(--rule);
       box-shadow: 0 12px 16px #142b4314;
     }
-    .mobile-menu a { padding: .9rem 0; }
-    .mobile-menu a + a { border-top: 1px solid var(--rule); }
+    .mobile-menu nav > a { padding: .9rem 0; }
+    .mobile-menu nav > a + a { border-top: 1px solid var(--rule); }
   }
 </style>
 <script>
-  const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
-  if (menu) {
-    document.addEventListener('click', (event) => {
-      if (event.target instanceof Element && (!menu.contains(event.target) || event.target.closest('a'))) menu.open = false;
-    });
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && menu.open) {
-        menu.open = false;
-        menu.querySelector('summary')?.focus();
-      }
-    });
-    matchMedia('(max-width: 760px)').addEventListener('change', () => { menu.open = false; });
-  }
+  const mobileMenu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
+  const desktopServices = document.querySelector<HTMLDetailsElement>('.desktop-nav [data-services-menu]');
+  const mobileServices = mobileMenu?.querySelector<HTMLDetailsElement>('[data-services-menu]');
+  const menus = [mobileServices, mobileMenu, desktopServices].filter(menu => menu !== undefined && menu !== null);
+
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return;
+    const clickedLink = event.target.closest('a');
+    for (const menu of menus) {
+      if (!menu.contains(event.target) || clickedLink) menu.open = false;
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    const openMenu = menus.find(menu => menu.open);
+    if (openMenu) {
+      openMenu.open = false;
+      openMenu.querySelector('summary')?.focus();
+    }
+  });
+
+  mobileMenu?.addEventListener('toggle', () => {
+    if (!mobileMenu.open && mobileServices) mobileServices.open = false;
+  });
+
+  matchMedia('(max-width: 760px)').addEventListener('change', () => {
+    for (const menu of menus) menu.open = false;
+  });
 </script>
