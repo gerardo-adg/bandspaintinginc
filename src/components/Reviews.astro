@@ -54,7 +54,10 @@ const reviews = [
         <figure class="review-card">
           <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
           <blockquote>“{quote}”</blockquote>
-          <figcaption><strong>{author}</strong><span>Google review</span></figcaption>
+          <figcaption>
+            <strong>{author}</strong>
+            <img src="/images/google-g.png" alt="Google review" width="22" height="22" />
+          </figcaption>
         </figure>
       </li>
     ))}
@@ -106,8 +109,8 @@ const reviews = [
   }
   .review-card .stars { color: #8b5800; }
   blockquote { margin: 0; line-height: 1.55; font-size: 1rem; }
-  figcaption { display: grid; gap: .25rem; margin-top: auto; }
-  figcaption span { color: var(--muted); font-size: .875rem; }
+  figcaption { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin-top: auto; width: 100%; }
+  figcaption img { display: block; flex: none; }
   @media (max-width: 950px) { .review-list { grid-auto-columns: calc((100% - 1rem) / 2); } }
   @media (max-width: 640px) { .review-list { grid-auto-columns: 90%; } }
 </style>
