@@ -7,7 +7,7 @@ import { services, servicePath } from '../service-pages';
 const project=(id:string)=>projects.find(p=>p.slug.startsWith(id))!;
 ---
 <Base title="Painters in Sacramento, CA" description="B&S Painting is a father-and-son painting company serving Sacramento. Explore interior and exterior painting, cabinet painting, and commercial services. Request a free estimate.">
-<section class="hero"><div class="intro"><p class="eyebrow"><i></i> Greater Sacramento, CA</p><h1>A fresh coat.<br/><em>A whole new <br/>feeling.</em></h1><p class="lead">Interior and exterior painting by a Sacramento father-and-son team. From the cabinets in your kitchen to the siding on your home.</p><div class="actions"><a class="btn" href="/contact/">Request a free estimate</a><a class="textlink" href="/projects/">Explore our work</a></div></div>
+<section class="hero"><div class="intro"><p class="eyebrow"><i></i> Greater Sacramento, CA</p><h1>A fresh coat.<br/><em>A whole new <br/>feeling.</em></h1><p class="lead">Interior and exterior painting by a Sacramento father-and-son team. From the cabinets in your kitchen to the siding on your home.</p><div class="actions"><a class="btn" href="/contact/">Request a free estimate</a><a class="textlink" href="/projects/"><span class="desktop-work-label">Explore our work</span><span class="mobile-work-label">View our work</span></a></div></div>
 <figure class="feature"><img fetchpriority="high" src={project('7141150').image} alt="Sunlit El Dorado Hills living room with painted walls and white ceiling trim"/><figcaption><span>El Dorado Hills</span>Interior painting</figcaption></figure></section>
 <section class="band"><span class="desktop-trust">Family owned &amp; operated</span><span class="desktop-trust">Licensed &amp; insured</span><a class="award-link" href="/images/businessrate-sacramento-2025.webp" aria-label="View the BusinessRate Best of Sacramento 2025 award plaque">
   <img src="/images/businessrate-sacramento-2025.webp" width="640" height="759" alt="" />
@@ -61,37 +61,48 @@ const project=(id:string)=>projects.find(p=>p.slug.startsWith(id))!;
     color: #e8d8b5;
   }
   .award-link:hover strong { text-decoration: underline; }
+  .mobile-work-label { display: none; }
   @media (max-width: 760px) {
-    .hero { isolation: isolate; background: var(--navy); color: #fff; }
+    .hero { isolation: isolate; background: #242321; color: #fff; }
     .hero .intro, .hero .feature { grid-area: 1 / 1; }
     .hero .feature { min-height: 0; }
-    .hero .feature img { object-position: 56% center; }
+    .hero .feature img { height: 82%; object-position: 51% top; }
     .hero .feature::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, #091725ad, #091725cf 65%, #091725bd);
+      background: linear-gradient(180deg, transparent 27%, #171614a8 52%, #242321 82%);
     }
     .hero .feature figcaption { display: none; }
     .hero .intro {
       position: relative;
       z-index: 1;
       width: 100%;
-      padding: clamp(3rem, 11vw, 5rem) 1.3rem 2.5rem;
+      padding: clamp(12.5rem, 54vw, 20rem) 1.3rem 1.8rem;
       text-align: center;
+      text-shadow: 0 2px 6px #0006;
     }
-    .hero .intro { text-shadow: 0 2px 5px #0009, 0 5px 14px #0006; }
-    .hero .btn { box-shadow: 0 6px 16px #0009, 0 2px 5px #0007; }
+    .hero .intro h1 { font-size: clamp(2.7rem, 11vw, 4rem); }
+    .hero .intro h1 em { font-style: normal; }
     .hero .intro h1 em br { display: initial; }
-    .hero .intro .lead { color: #fff; }
-    .hero .lead { margin: 1.5rem auto; max-width: 30ch; }
-    .hero .actions { flex-direction: column; gap: 1rem; }
-    .hero .btn { background: #0069b0; color: #fff; }
+    .hero .lead { display: none; }
+    .hero .actions { flex-direction: column; gap: .55rem; margin-top: 1.35rem; }
+    .hero .btn {
+      width: min(100%, 19rem);
+      border-radius: .6rem;
+      background: #0069b0;
+      color: #fff;
+      text-shadow: none;
+    }
     .hero .btn:hover { background: #00558f; }
+    .hero .textlink { border: 0; display: grid; place-items: center; min-height: 44px; padding: 0; text-decoration: underline; text-underline-offset: .25rem; }
+    .desktop-work-label { display: none; }
+    .mobile-work-label { display: inline; }
     .hero a:focus-visible { outline-color: #fff; }
-    .hero .eyebrow { color: #9ed9ff; justify-content: center; text-align: center; }
+    .hero .eyebrow { color: #9ed9ff; justify-content: center; text-align: center; margin-bottom: .8rem; }
     .hero .eyebrow i { display: none; }
-    .band { justify-content: center; }
+    .band { justify-content: center; background: var(--paper); color: var(--ink); padding-block: 1rem; border-bottom: 1px solid var(--rule); }
+    .award-link small { color: var(--muted); }
     .desktop-trust { display: none; }
   }
 </style>
