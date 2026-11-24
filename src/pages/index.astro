@@ -74,6 +74,7 @@ const project=(id:string)=>projects.find(p=>p.slug.startsWith(id))!;
       min-height: calc(clamp(27rem, 120vw, 34rem) + 3rem);
       background: #242321;
       color: #fff;
+      --hero-accent: #9ed9ff;
     }
     .hero .intro, .hero .feature { grid-area: 1 / 1; }
     .hero .feature { min-height: 0; }
@@ -101,17 +102,18 @@ const project=(id:string)=>projects.find(p=>p.slug.startsWith(id))!;
     .hero .actions { flex-direction: column; gap: .55rem; margin-top: 1.35rem; }
     .hero .btn {
       width: min(100%, 19rem);
+      border: 2px solid currentColor;
       border-radius: .6rem;
-      background: #0069b0;
-      color: #fff;
+      background: transparent;
+      color: var(--hero-accent);
       text-shadow: none;
     }
-    .hero .btn:hover { background: #00558f; }
+    .hero .btn:hover { background: rgb(0 0 0 / 24%); }
     .hero .textlink { border: 0; display: grid; place-items: center; min-height: 44px; padding: 0; text-decoration: underline; text-underline-offset: .25rem; }
     .desktop-work-label { display: none; }
     .mobile-work-label { display: inline; }
     .hero a:focus-visible { outline-color: #fff; }
-    .hero .eyebrow { color: #9ed9ff; justify-content: center; text-align: center; margin-bottom: .8rem; }
+    .hero .eyebrow { color: var(--hero-accent); justify-content: center; text-align: center; margin-bottom: .8rem; }
     .hero .eyebrow i { display: none; }
     .band { justify-content: center; padding-block: 1rem; }
     .desktop-trust { display: none; }
