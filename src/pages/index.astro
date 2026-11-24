@@ -66,19 +66,19 @@ const project=(id:string)=>projects.find(p=>p.slug.startsWith(id))!;
     .hero { isolation: isolate; background: #242321; color: #fff; }
     .hero .intro, .hero .feature { grid-area: 1 / 1; }
     .hero .feature { min-height: 0; }
-    .hero .feature img { height: 82%; object-position: 51% top; }
+    .hero .feature img { object-position: 51% top; }
     .hero .feature::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, transparent 27%, #171614a8 52%, #242321 82%);
+      background: linear-gradient(180deg, rgb(0 0 0 / 43%), rgb(0 0 0 / 66%) 57%, rgb(0 0 0 / 72%));
     }
     .hero .feature figcaption { display: none; }
     .hero .intro {
       position: relative;
       z-index: 1;
       width: 100%;
-      padding: clamp(12.5rem, 54vw, 20rem) 1.3rem 1.8rem;
+      padding: clamp(9.25rem, 40vw, 14rem) 1.3rem 1.8rem;
       text-align: center;
       text-shadow: 0 2px 6px #0006;
     }
