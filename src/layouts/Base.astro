@@ -45,10 +45,24 @@ const socialImage = absoluteUrl(seo.image ?? '/images/7141150-el-dorado-hills-in
     {navigation.map(({ href, label }) => <a href={href}>{label}</a>)}
   </nav>
 </details></header>
-<main id="main"><slot/></main><footer><div><b>B&amp;S Painting Inc.</b><p>Sacramento, California · License #1097013</p></div><div><a href="tel:+19168689188">(916) 868-9188</a><br/><a href="mailto:Bryana@bspaintinc.com">Bryana@bspaintinc.com</a></div></footer></body></html>
+<main id="main"><slot/></main>
+<footer>
+  <div><b>B&amp;S Painting Inc.</b><p>Sacramento, California · License #1097013</p></div>
+  <div><a href="tel:+19168689188">(916) 868-9188</a><br/><a href="mailto:Bryana@bspaintinc.com">Bryana@bspaintinc.com</a></div>
+  <nav class="footer-links" aria-label="Legal">
+    <a href="/privacy-policy/">Privacy Policy</a>
+    <a href="/terms-and-conditions/">Terms and Conditions</a>
+  </nav>
+</footer>
+</body></html>
 
 <style>
   header { position: relative; z-index: 2; }
+  .footer-links { align-items: flex-start; gap: .4rem 1rem; flex-wrap: wrap; }
+  .footer-links a, :global(.legal-copy a) { text-decoration: underline; text-underline-offset: .2em; }
+  :global(.legal-copy) { max-width: 72ch; margin-inline: auto; line-height: 1.65; }
+  :global(.legal-copy h1) { font-size: clamp(2.7rem, 6vw, 5rem); }
+  :global(.legal-copy h2) { font: 1.65rem/1.2 Georgia, serif; margin-top: 2rem; }
   .mobile-menu { display: none; }
   @media (max-width: 760px) {
     header { flex-wrap: nowrap; gap: .5rem; }

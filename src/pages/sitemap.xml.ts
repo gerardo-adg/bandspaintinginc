@@ -4,7 +4,7 @@ import { absoluteUrl } from '../seo';
 
 export function GET() {
   const routes = [
-    '/', '/services/', '/projects/', '/about/', '/contact/',
+    '/', '/services/', '/projects/', '/about/', '/contact/', '/privacy-policy/', '/terms-and-conditions/',
     ...services.map(service => servicePath(service.slug)),
     ...projects.map(project => '/projects/' + project.slug + '/'),
   ];

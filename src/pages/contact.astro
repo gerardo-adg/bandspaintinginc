@@ -27,6 +27,7 @@ import { estimateServices } from '../estimate-services';
       <label>Project address
         <textarea name="address" autocomplete="street-address" rows="2" maxlength="300" required placeholder="Street address, city, and ZIP code"></textarea>
       </label>
+      <p class="form-status">We use your contact details and project address to respond to your request and coordinate your estimate. Read our <a class="textlink" href="/privacy-policy/">Privacy Policy</a>.</p>
       <button class="btn" type="submit">Request my free estimate</button>
       <p class="form-status" role="status" hidden></p>
     </form>
@@ -53,7 +54,7 @@ import { estimateServices } from '../estimate-services';
   const matchingOption = Array.from(service?.options ?? []).find(option => option.dataset.service === requestedService);
   if (service && matchingOption && !service.value) service.value = matchingOption.value;
 
-  const status = form?.querySelector<HTMLElement>('.form-status');
+  const status = form?.querySelector<HTMLElement>('[role="status"]');
   const submit = form?.querySelector<HTMLButtonElement>('button');
   if (form && status && submit) {
     form.addEventListener('submit', async (event) => {
