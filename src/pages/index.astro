@@ -63,7 +63,12 @@ const project=(id:string)=>projects.find(p=>p.slug.startsWith(id))!;
   .award-link:hover strong { text-decoration: underline; }
   .mobile-work-label { display: none; }
   @media (max-width: 760px) {
-    .hero { isolation: isolate; background: #242321; color: #fff; }
+    .hero {
+      isolation: isolate;
+      min-height: clamp(27rem, 120vw, 34rem);
+      background: #242321;
+      color: #fff;
+    }
     .hero .intro, .hero .feature { grid-area: 1 / 1; }
     .hero .feature { min-height: 0; }
     .hero .feature img { object-position: 51% top; }
@@ -78,7 +83,7 @@ const project=(id:string)=>projects.find(p=>p.slug.startsWith(id))!;
       position: relative;
       z-index: 1;
       width: 100%;
-      padding: clamp(9.25rem, 40vw, 14rem) 1.3rem 1.8rem;
+      padding: 2rem 1.3rem;
       text-align: center;
       text-shadow: 0 2px 6px #0006;
     }
@@ -101,8 +106,7 @@ const project=(id:string)=>projects.find(p=>p.slug.startsWith(id))!;
     .hero a:focus-visible { outline-color: #fff; }
     .hero .eyebrow { color: #9ed9ff; justify-content: center; text-align: center; margin-bottom: .8rem; }
     .hero .eyebrow i { display: none; }
-    .band { justify-content: center; background: var(--paper); color: var(--ink); padding-block: 1rem; border-bottom: 1px solid var(--rule); }
-    .award-link small { color: var(--muted); }
+    .band { justify-content: center; padding-block: 1rem; }
     .desktop-trust { display: none; }
   }
 </style>
