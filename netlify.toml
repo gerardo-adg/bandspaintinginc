@@ -1,0 +1,3 @@
+[build]
+  command = "npx astro build --outDir dist/client"
+  publish = "dist/client"
